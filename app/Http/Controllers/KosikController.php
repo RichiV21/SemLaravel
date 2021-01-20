@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produkt;
-use Illuminate\Http\Request;
+
 
 class KosikController extends Controller
 {
@@ -64,7 +64,6 @@ class KosikController extends Controller
                 $kosik2[$item["id"]] = [
                     "mnozstvo" => $item["mnozstvo"],
                     "cena" => $item["cena"]
-
                 ];
                 $kosik2["total"] += $item["mnozstvo"] * $item["cena"];
             }
@@ -75,17 +74,46 @@ class KosikController extends Controller
         //foreach ($kosik as $i => $value) {
             //echo $i." ".$value["mnozstvo"]." ".$value["cena"]."<br>";
         //}
-        return redirect('/kosik');
+        //return redirect('/kosik');
+        return "Produkt bol pridaný do košíka";
     }
 
     public function update() {
+        $mnozstvo = request()->mnozstvo;
+        $produktid = request()->produktid;
+        if(is_numeric($mnozstvo) && strpos($mnozstvo, ".") === false) {
+            if ($mnozstvo > 0) {
+                if (request()->session()->has("kosik")) {
+                    $kosik = request()->session()->get("kosik");
+                    $kosik2 = [];
+                    $kosik2["total"] = 0;
+                    foreach ($kosik as $i => $value) {
+                        if ($i == $produktid) {
+                            $kosik2[$i] = [
+                                "mnozstvo" => $mnozstvo,
+                                "cena" => $value["cena"]
+                            ];
+                            $kosik2["total"] += $mnozstvo * $value["cena"];
+                        } else {
+                            if ($i != "total") {
+                                $kosik2["total"] += $value["mnozstvo"] * $value["cena"];
+                                $kosik2[$i] = $value;
+                            }
+                        }
+                    }
 
-        return view ("produkt.index", compact("produkty"));
-
+                    request()->session()->forget("kosik");
+                    request()->session()->put("kosik",$kosik2);
+                }
+                return "Kosik updatnuty";
+            }
+            return "Zadal si množstvo menšie ako 1";
+        }
+        return "Množstvo musí byť celé číslo";
     }
 
     public function destroy() {
-        $produktid = request()->get("produktid");
+        $produktid = request()->produktid;
         if (request()->session()->has("kosik")) {
             $kosik = request()->session()->get("kosik");
             $kosik2 = [];
@@ -105,6 +133,6 @@ class KosikController extends Controller
         //foreach ($kosik as $i => $value) {
             //echo $i." ".$value["mnozstvo"]." ".$value["cena"]."<br>";
         //}
-        return redirect('/kosik');
+        return "Produkt bol vymazaný z košíka";
     }
 }

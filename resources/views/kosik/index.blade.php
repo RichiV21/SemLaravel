@@ -2,45 +2,55 @@
 
 @section('content')
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
+            @if(isset($produkty) && count($produkty) > 0)
+            <div class="row nadpis">
+                <h4 class="col-2"></h4>
+                <h4 class="col-4">Názov</h4>
+                <h4 class="col-2">Množstvo</h4>
+                <h4 class="col-2">Cena za kus</h4>
+                <h4 class="col-2"></h4>
+            </div>
+            @endif
         @forelse($produkty as $produkt)
-                        <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <a href="/produkt/{{$produkt->id}}"><img class="card-img-top" src="/storage/{{$produkt->obrazok}}" alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="/produkt/{{$produkt->id}}">{{$produkt->nazov}}</a>
-                                    </h4>
-                                    <h5>{{$produkt->cena}}€  {{$kosik[$produkt->id]["mnozstvo"]}}ks</h5>
-                                    <p class="card-text">{{$produkt->popis}}</p>
-                                </div>
+                <div class="row  riadok">
+                <a class="col-2" href="/produkt/{{$produkt->id}}"><img class="card-img kosikImg " src="/storage/{{$produkt->obrazok}}" alt=""></a>
+                    <h4 class="card-title borderKosik col-4" >
+                        <a href="/produkt/{{$produkt->id}}">{{$produkt->nazov}}</a>
+                    </h4>
 
-                            </div>
-                        </div>
-            <form action="/kosik" method="POST">
-                @csrf
-                {{method_field("DELETE")}}
-                <input type="hidden" name="produktid" value="{{$produkt->id}}">
-                <button role="submit">Vymazať</button>
-            </form>
+                    <input type="text" class="borderKosik col-2" name="mnozstvo" placeholder="Mnozstvo" value="{{$kosik[$produkt->id]["mnozstvo"]}}" autocomplete="off">
+                    @error('cena')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    <h5 class="borderKosik col-2">{{$produkt->cena}}€</h5>
+                    <form action="/kosik" method="POST" class="update col-1 border-right">
+                        @csrf
+                        {{method_field("PUT")}}
+                        <input type="hidden" name="produktid" value="{{$produkt->id}}">
+                        <button role="submit" class="tlacitko">Update</button>
+                    </form>
+                    <form action="/kosik" method="POST" class="removeFromCart col-1">
+                        @csrf
+                        {{method_field("DELETE")}}
+                        <input type="hidden" name="produktid" value="{{$produkt->id}}">
+                        <button role="submit" class="tlacitko">Vymazať</button>
+                    </form>
+            </div>
         @empty
-            <p>Prazdny kosik</p>
+            <h2>Prázdny košík</h2>
         @endforelse
-                    </div>
+                @if(isset($produkty) && count($produkty) > 0)
                     @if(isset($kosik["total"]))
                     <p><br>Suma celkom {{$kosik["total"]}}€</p>
                     @else
                         <p><br>Suma celkom 0€</p>
                         @endif
-                </div>
-            </div>
+
             <form action="/objednavky" method="POST">
                 @csrf
                 <button role="submit">Vytvorit objednavku</button>
             </form>
+                @endif
         </div>
-
 @endsection
 

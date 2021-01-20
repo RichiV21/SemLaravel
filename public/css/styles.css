@@ -1,0 +1,124 @@
+.produkt {
+    box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
+}
+* {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.kosikImg {
+    height: 100%;
+    width: 100%;
+}
+
+.riadok {
+    margin: 20px 0px;
+    box-shadow: 5px 10px 15px rgba(0,0,0,0.2);
+}
+.nadpis {
+    margin: 20px 0px;
+    text-align: center;
+
+}
+.kategoriaNazov ,.vypis, .objednavkaVypis{
+    text-align: center;
+}
+
+.kategoriaNazov span {
+    background-color: deepskyblue;
+}
+
+.borderKosik {
+    border-right: black 2px solid;
+    text-align: center;
+    align-items: center;
+    margin: 0;
+}
+
+.tlacitko {
+    background-color: red;
+    border: none;
+    color: white;
+    height: 100%;
+    width: 100%;
+}
+
+.riadok .col-1,.riadok .col-2  {
+    padding: 0;
+}
+
+.form-obrazok img {
+    max-width: 200px;
+    height: auto;
+}
+
+.update button {
+    background-color: green;
+}
+
+footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: purple;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.podakovanie {
+    font-family: "Arial Black",serif;
+    font-size: 1.5em;
+}
+
+.footer-wrap {
+    display: flex;
+    width: 80%;
+    margin: auto;
+    align-items: center;
+    list-style-type: none;
+    text-align: center;
+}
+
+.footer-wrap li {
+    width: 50%;
+    font-size: 2em;
+    color: white;
+}
+
+.objednavkaVypis h5{
+    color: royalblue;
+    font-weight: normal;
+}
+
+.objednavkaVypis h4{
+    font-weight: bold;
+}
+
+.vypisCena {
+    background-color: black;
+    color: orangered;
+    padding: 5px 0px;
+    margin: 0;
+}
+
+.vypisNazov {
+    color: black;
+}
+
+.vypisNazov:hover {
+    color: white;
+    font-weight: bold;
+}
+
+.produkt .card-title {
+    background-color: red;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 5px 0px;
+    border: black 1px solid;
+}
+
+.produkt button {
+    width: 100%;
+    background-color: green;
+    border: 0;
+}

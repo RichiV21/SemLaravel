@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>{{$kategoria->nazov}}</h2>
+    <h2 class="kategoriaNazov"><span>{{$kategoria->nazov}}</span></h2>
     @include("produkt.vypis")
     <div class="row">
         <div class="col-12 d-flex justify-content-center">

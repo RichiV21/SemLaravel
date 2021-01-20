@@ -23,27 +23,21 @@ class ObjednavkaController extends Controller
         return view ("objednavka.show" ,compact("objednavka"));
     }
 
-    protected function cenaKosika() {
-        $cena = 0;
-        $kosik = request()->session()->get("kosik");
-        foreach ($kosik as $i => $value) {
-            $cena += ($value["cena"] * $value["mnozstvo"]);
-        }
-        return $cena;
-    }
-
     public function store() {
         if (request()->session()->has("kosik")) {
             $user = Auth::user();
-            $cena = $this->cenaKosika();
+            $kosik = session('kosik');
+            $cena = $kosik["total"];
             $objednavka = $user->objednavky()->create([
                 "meno" => $user->name,
                 "cena" => $cena
             ]);
             $produktid = [];
-            $kosik = session('kosik');
+
             foreach ($kosik as $key => $value) {
-                array_push($produktid, $key);
+                if ($key != "total") {
+                    array_push($produktid, $key);
+                }
             }
             $produkty = Produkt::find($produktid);
             $syncData = [];

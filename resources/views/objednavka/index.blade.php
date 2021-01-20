@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-
-@forelse($objednavky as $objednavka)
-    <a href="/objednavky/{{$objednavka->id}}">
-        <h4> Objednavka číslo {{$objednavka->id}} Cena: {{$objednavka->cena}}€</h4>
-    </a>
-@empty
-    <p>Ziadne objednavky</p>
-@endforelse
-
+    <div class="container">
+    @forelse($objednavky as $objednavka)
+        <a href="/objednavky/{{$objednavka->id}}" class="objednavkaVypis">
+            <h4> Objednavka číslo {{$objednavka->id}}</h4>
+            <h5> Cena: {{$objednavka->cena}}€</h5>
+        </a>
+    @empty
+        <h2>Žiadne objednavky</h2>
+    @endforelse
+    </div>
 @endsection

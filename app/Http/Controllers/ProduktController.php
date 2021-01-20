@@ -12,8 +12,9 @@ use Intervention\Image\Facades\Image;
 class ProduktController extends Controller
 {
     public function index() {
-        $produkty = Produkt::where("vymazane","=",false)->paginate(6);
-        return view ("produkt.index", compact("produkty"));
+        $produkty = Produkt::where("vymazane","=",false)->paginate(8);
+        $zobraz = false;
+        return view ("produkt.index", compact("produkty", "zobraz"));
     }
 
     public function show(Produkt $produkt) {
@@ -23,8 +24,9 @@ class ProduktController extends Controller
     }
 
     public function getByKategoria(Kategoria $kategoria) {
-        $produkty = $kategoria->produkty()->where("vymazane","=",false)->paginate(6);
-        return view ("produkt.getByKategoria", compact("produkty", "kategoria"));
+        $zobraz = false;
+        $produkty = $kategoria->produkty()->where("vymazane","=",false)->paginate(8);
+        return view ("produkt.getByKategoria", compact("produkty", "kategoria","zobraz" ));
     }
 
     public function create() {
@@ -52,7 +54,7 @@ class ProduktController extends Controller
         $produkt->update([
             'obrazok' => ('obrazky_produkt/' . $image_name)
         ]);
-
+        return redirect("/");
     }
 
     public function edit(Produkt $produkt) {
@@ -69,7 +71,8 @@ class ProduktController extends Controller
             'nazov' => 'required',
             'cena' => 'required|numeric',
             'popis' => 'required|min:10',
-            'obrazok' => 'sometimes|file|image'
+            'obrazok' => 'sometimes|file|image',
+            "vymazane" => "required"
         ]));
 
         $produkt->kategorie()->sync(request()->kategoria);
@@ -90,5 +93,11 @@ class ProduktController extends Controller
     public function destroy(Produkt $produkt) {
         $produkt->update(["vymazane" => true]);
         return redirect('/');
+    }
+
+    public function indexAdmin() {
+        $produkty = Produkt::paginate(6);
+        $zobraz = true;
+        return view ("produkt.index", compact("produkty","zobraz"));
     }
 }

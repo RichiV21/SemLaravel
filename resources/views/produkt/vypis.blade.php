@@ -1,31 +1,41 @@
 
-    <div class="container">
+    <div class="container vypis" >
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">
                     @forelse($produkty as $produkt)
                         <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card h-100">
+                            <div class="card h-100 produkt">
                                 <a href="/produkt/{{$produkt->id}}"><img class="card-img-top" src="/storage/{{$produkt->obrazok}}" alt=""></a>
-                                <div class="card-body">
+                                <div class="card-body p-0" >
                                     <h4 class="card-title">
-                                        <a href="/produkt/{{$produkt->id}}">{{$produkt->nazov}}</a>
+                                        <a href="/produkt/{{$produkt->id}}" class="vypisNazov">{{$produkt->nazov}}</a>
                                     </h4>
-                                    <h5>{{$produkt->cena}}€</h5>
-                                    <p class="card-text">{{$produkt->popis}}</p>
-                                    <a href="/produkt/{{$produkt->id}}/edit">Edit</a>
+                                    <h5 class="vypisCena">{{$produkt->cena}}€</h5>
+                                    <form action="/kosik" method="POST" class="addtocart">
+                                        @csrf
+                                        <input type="hidden" name="produktid" value="{{$produkt->id}}">
+                                        <button role="submit">Pridať do Košika</button>
+                                    </form>
+                                    @guest
+                                    @else
+                                        @if(Auth::user()->isAdmin() && $zobraz)
+                                            @if($produkt->vymazane)
+                                                <p class="text-danger">Vymazane</p>
+                                            @endif
+                                            <a href="/produkt/{{$produkt->id}}/edit">Edit</a>
+                                            <form action="/produkt/{{$produkt->id}}" method="POST">
+                                                @csrf
+                                                {{method_field("DELETE")}}
+                                                <button role="submit">Vymazať</button>
+                                            </form>
+                                        @endif
+                                    @endguest
                                 </div>
                             </div>
-
                         </div>
-                        <form action="/produkt/{{$produkt->id}}" method="POST">
-                            @csrf
-                            {{method_field("DELETE")}}
-                            <button role="submit">Vymazať</button>
-                        </form>
-
                     @empty
-                        <p>Žiadne produkty</p>
+                        <h2>Žiadne produkty</h2>
                     @endforelse
                 </div>
             </div>

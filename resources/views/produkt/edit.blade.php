@@ -4,14 +4,22 @@
 
     <form action="/produkt/{{$produkt->id}}" method="POST" enctype="multipart/form-data">
         {{ method_field('PUT') }}
+        <div class="container">
         @include("produkt.form")
 
+   <div class="form-obrazok">
+       <h3>Obrázok</h3>
+       <img src="/storage/{{$produkt->obrazok}}">
+
+   </div>
+    <div class="mt-2">
         <input type="file" name="obrazok" accept="image/*">
-        <img src="/storage/{{$produkt->obrazok}}">
         @error('obrazok')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
+    </div>
         <div class="py-2">
+            <h3>Kategória</h3>
             <select name="kategoria">
                 <option value="" selected disabled hidden>Vyber kategóriu</option>
                 @forelse($kategorie as $kategoria)
@@ -26,7 +34,19 @@
                 @endforelse
             </select>
         </div>
-        <button role="submit">Odoslat</button>
+<div>
+    <h3>Viditelnosť pre zákazníka</h3>
+    <select name="vymazane">
+        <option value="0" @if(!$produkt->vymazane) selected @endif>Nevymazane</option>
+        <option value="1" @if($produkt->vymazane) selected @endif>Vymazane</option>
+    </select>
+
+</div>
+
+<div class="mt-2">
+    <button role="submit">Uložiť zmeny</button>
+</div>
+        </div>
     </form>
 @endsection
 

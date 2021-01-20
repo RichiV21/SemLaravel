@@ -5,24 +5,23 @@
 @if($objednavka)
 
 <div class="container">
-    <div class="row">
         <h2>Objednávka číslo {{$objednavka->id}}</h2>
-        <div class="col-lg-12">
-            <div class="row">
-    @forelse($objednavka->produkty as $produkt)
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <a href="/produkt/{{$produkt->id}}"><img class="card-img-top" src="/storage/{{$produkt->obrazok}}" alt=""></a>
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="/produkt/{{$produkt->id}}">{{$produkt->nazov}}</a>
-                    </h4>
-                    <h5>{{$produkt->cena}}€  {{$produkt->pivot->mnozstvo}}ks</h5>
-                    <p class="card-text">{{$produkt->popis}}</p>
-
+                <div class="row nadpis">
+                    <h4 class="col-2"></h4>
+                    <h4 class="col-5">Názov</h4>
+                    <h4 class="col-2">Množstvo</h4>
+                    <h4 class="col-3">Cena za kus</h4>
+                    <h4 class="col-2"></h4>
                 </div>
-            </div>
-        </div>
+    @forelse($objednavka->produkty as $produkt)
+                    <div class="row riadok">
+                        <a class="col-2" href="/produkt/{{$produkt->id}}"><img class="card-img kosikImg " src="/storage/{{$produkt->obrazok}}" alt=""></a>
+                        <h4 class="card-title borderKosik col-5" >
+                            <a href="/produkt/{{$produkt->id}}">{{$produkt->nazov}}</a>
+                        </h4>
+                        <h5 class="borderKosik col-2">{{$produkt->pivot->mnozstvo}}ks</h5>
+                        <h5 class="borderKosik col-3">{{$produkt->cena}}€</h5>
+                    </div>
     @empty
         <p>Ziadne produkty v objednavke</p>
     @endforelse

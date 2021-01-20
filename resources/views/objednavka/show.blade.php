@@ -25,9 +25,6 @@
     @empty
         <p>Ziadne produkty v objednavke</p>
     @endforelse
-            </div>
-        </div>
-    </div>
 </div>
 @else
     <p>Objednavka sa nenašla</p>

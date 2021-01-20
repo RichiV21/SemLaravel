@@ -27,13 +27,13 @@
                         @csrf
                         {{method_field("PUT")}}
                         <input type="hidden" name="produktid" value="{{$produkt->id}}">
-                        <button role="submit" class="tlacitko">Update</button>
+                        <button type="submit" class="tlacitko">Update</button>
                     </form>
                     <form action="/kosik" method="POST" class="removeFromCart col-1">
                         @csrf
                         {{method_field("DELETE")}}
                         <input type="hidden" name="produktid" value="{{$produkt->id}}">
-                        <button role="submit" class="tlacitko">Vymazať</button>
+                        <button type="submit" class="tlacitko">Vymazať</button>
                     </form>
             </div>
         @empty
@@ -48,7 +48,7 @@
 
             <form action="/objednavky" method="POST">
                 @csrf
-                <button role="submit">Vytvorit objednavku</button>
+                <button type="submit">Vytvorit objednavku</button>
             </form>
                 @endif
         </div>

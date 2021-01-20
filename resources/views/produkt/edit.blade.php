@@ -9,7 +9,7 @@
 
    <div class="form-obrazok">
        <h3>Obrázok</h3>
-       <img src="/storage/{{$produkt->obrazok}}">
+       <img src="/storage/{{$produkt->obrazok}}" alt="">
 
    </div>
     <div class="mt-2">
@@ -21,9 +21,7 @@
         <div class="py-2">
             <h3>Kategória</h3>
             <select name="kategoria">
-                <option value="" selected disabled hidden>Vyber kategóriu</option>
                 @forelse($kategorie as $kategoria)
-
                     @if($produkt->kategorie()->count() != 0 && $kategoria->id == $produkt->kategorie[0]->id)
                         <option value="{{$kategoria->id}}" selected>{{$kategoria->nazov}}</option>
                     @else
@@ -44,7 +42,7 @@
 </div>
 
 <div class="mt-2">
-    <button role="submit">Uložiť zmeny</button>
+    <button type="submit">Uložiť zmeny</button>
 </div>
         </div>
     </form>

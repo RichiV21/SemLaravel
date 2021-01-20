@@ -13,7 +13,7 @@
                     <form action="/kosik" method="POST" class="addtocart">
                         @csrf
                         <input type="hidden" name="produktid" value="{{$produkt->id}}">
-                        <button role="submit">Pridať do Košika</button>
+                        <button type="submit">Pridať do Košika</button>
                     </form>
                 </div>
             </div>

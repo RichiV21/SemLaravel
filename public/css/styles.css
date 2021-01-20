@@ -117,8 +117,12 @@ footer {
     border: black 1px solid;
 }
 
-.produkt button {
+.produkt .pridat {
     width: 100%;
     background-color: green;
     border: 0;
+}
+
+.Vymazane {
+    background-color: red;
 }

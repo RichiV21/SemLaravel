@@ -21,7 +21,7 @@
                @endforelse
            </select>
         </div>
-        <button role="submit">Odoslat</button>
+        <button type="submit">Odoslat</button>
     </form>
 
 @endsection

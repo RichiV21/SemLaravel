@@ -36,13 +36,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                            <a href="{{url("/produkt/kategoria/1")}}" class="btn btn-link nav-link">Proteíny</a>
-                            <a href="{{url("/produkt/kategoria/2")}}" class="btn btn-link nav-link">Aminokyseliny</a>
-                            <a href="{{url("/produkt/kategoria/3")}}" class="btn btn-link nav-link">Kreatin</a>
+                        <li class="btn btn-link nav-link">
+                            <a href="{{url("/produkt/kategoria/1")}}">Proteíny</a>
+                        </li>
+                        <li class="btn btn-link nav-link">
+                            <a href="{{url("/produkt/kategoria/2")}}">Aminokyseliny</a>
+                        </li>
+                        <li class="btn btn-link nav-link">
+                            <a href="{{url("/produkt/kategoria/3")}}">Kreatin</a>
+                        </li>
+
                         @guest
                         @else
                             @if(Auth::user()->isAdmin())
-                        <div class="btn-group dropright">
+                        <li class="btn-group dropright">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Admin
                             </button>
@@ -51,7 +58,7 @@
                                 <a href="{{url("/produkt/create")}}" class="dropdown-item">Vytvor produkt</a>
                                 <!-- Dropdown menu links -->
                             </div>
-                        </div>
+                        </li>
                             @endif
                         @endguest
                     </ul>
@@ -78,7 +85,7 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
 
@@ -111,60 +118,61 @@
             </ul>
         </footer>
     </div>
+    <script>
+        $(document).ready(function (){
+            $('.addtocart').submit( function(event) {
+                event.preventDefault();
+                let produktid = $(event.target).find('input[name="produktid"]').val();
+                let formData = new FormData();
+                formData.append("produktid" , produktid);
+                axios.post("/kosik",formData)
+                    .then(result => {
+                        console.log(result);
+                        alert(result.data);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            });
+            $('.removeFromCart').submit( function(event) {
+                event.preventDefault();
+                let produktid = $(event.target).find('input[name="produktid"]').val();
+                console.log(produktid);
+                let formData = new FormData();
+                formData.append("_method" , "DELETE");
+                formData.append("produktid" , produktid);
+                axios.post("/kosik",formData)
+                    .then(result => {
+                        //console.log(result);
+                        alert(result.data);
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            });
+            $('.update').submit( function(event) {
+                event.preventDefault();
+                let produktid = $(event.target).find('input[name="produktid"]').val();
+                let mnozstvo = $(event.target).parent().find('input[name="mnozstvo"]').val();
+                console.log(produktid);
+                console.log(mnozstvo);
+                let formData = new FormData();
+                formData.append("_method" , "PUT");
+                formData.append("produktid" , produktid);
+                formData.append("mnozstvo" , mnozstvo);
+                axios.post("/kosik",formData)
+                    .then(result => {
+                        //console.log(result);
+                        alert(result.data);
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            });
+        })
+    </script>
 </body>
-<script>
-    $(document).ready(function (){
-        $('.addtocart').submit( function(event) {
-            event.preventDefault();
-           let produktid = $(event.target).find('input[name="produktid"]').val();
-            let formData = new FormData();
-            formData.append("produktid" , produktid);
-            axios.post("/kosik",formData)
-                .then(result => {
-                    console.log(result);
-                    alert(result.data);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        });
-        $('.removeFromCart').submit( function(event) {
-            event.preventDefault();
-            let produktid = $(event.target).find('input[name="produktid"]').val();
-            console.log(produktid);
-            let formData = new FormData();
-            formData.append("_method" , "DELETE");
-            formData.append("produktid" , produktid);
-            axios.post("/kosik",formData)
-                .then(result => {
-                    //console.log(result);
-                    alert(result.data);
-                    location.reload();
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        });
-        $('.update').submit( function(event) {
-            event.preventDefault();
-            let produktid = $(event.target).find('input[name="produktid"]').val();
-            let mnozstvo = $(event.target).parent().find('input[name="mnozstvo"]').val();
-            console.log(produktid);
-            console.log(mnozstvo);
-            let formData = new FormData();
-            formData.append("_method" , "PUT");
-            formData.append("produktid" , produktid);
-            formData.append("mnozstvo" , mnozstvo);
-            axios.post("/kosik",formData)
-                .then(result => {
-                    //console.log(result);
-                    alert(result.data);
-                    location.reload();
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        });
-    })
-</script>
+
 </html>

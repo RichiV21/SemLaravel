@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produkt;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class ObjednavkaController extends Controller

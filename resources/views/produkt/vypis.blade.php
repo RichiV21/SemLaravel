@@ -5,7 +5,7 @@
                 <div class="row">
                     @forelse($produkty as $produkt)
                         <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card h-100 produkt">
+                            <div class="card h-100 produkt  @if($produkt->vymazane) Vymazane @endif">
                                 <a href="/produkt/{{$produkt->id}}"><img class="card-img-top" src="/storage/{{$produkt->obrazok}}" alt=""></a>
                                 <div class="card-body p-0" >
                                     <h4 class="card-title">
@@ -15,19 +15,17 @@
                                     <form action="/kosik" method="POST" class="addtocart">
                                         @csrf
                                         <input type="hidden" name="produktid" value="{{$produkt->id}}">
-                                        <button role="submit">Pridať do Košika</button>
+                                        <button type="submit" class="pridat">Pridať do Košika</button>
                                     </form>
                                     @guest
                                     @else
                                         @if(Auth::user()->isAdmin() && $zobraz)
-                                            @if($produkt->vymazane)
-                                                <p class="text-danger">Vymazane</p>
-                                            @endif
+
                                             <a href="/produkt/{{$produkt->id}}/edit">Edit</a>
                                             <form action="/produkt/{{$produkt->id}}" method="POST">
                                                 @csrf
                                                 {{method_field("DELETE")}}
-                                                <button role="submit">Vymazať</button>
+                                                <button type="submit">Vymazať</button>
                                             </form>
                                         @endif
                                     @endguest
